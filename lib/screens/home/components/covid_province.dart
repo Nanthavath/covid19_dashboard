@@ -3,6 +3,8 @@ import 'package:covid19_dashboard/models/province.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../province_screen.dart';
+
 class CovidProvince extends StatelessWidget {
   const CovidProvince({Key key, this.data}) : super(key: key);
   final List<Provinces> data;
@@ -16,7 +18,13 @@ class CovidProvince extends StatelessWidget {
       child: Column(
         children: List.generate(data.length, (index) {
           return InkWell(
-            onTap: () {},
+            onTap: () {
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) => Province(data: data[index],),
+              //   ),
+              // );
+            },
             child: Card(
               child: Container(
                 padding: EdgeInsets.all(20),
@@ -61,7 +69,8 @@ class CovidProvince extends StatelessWidget {
                         children: [
                           Text(
                             'ສະສົມ: ${data[index].total} ຄົນ',
-                            style: TextStyle(fontSize: 14, color: Colors.orange),
+                            style:
+                                TextStyle(fontSize: 14, color: Colors.orange),
                           ),
                           SizedBox(
                             height: 5,

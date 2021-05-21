@@ -19,6 +19,8 @@ dependencies:
   bubble_tab_indicator: ^0.1.6
   http: ^0.13.3
   flutter_svg: ^0.22.0
+  share: ^2.0.1
+  url_launcher: ^6.0.4
 
   
 

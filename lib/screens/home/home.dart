@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'components/covid_province.dart';
+import 'components/drawer_menu.dart';
 import 'components/state_grid.dart';
 
 class Home extends StatefulWidget {
@@ -30,7 +31,11 @@ class _HomeState extends State<Home> {
     return Scaffold(
       key: _drawerKey,
       backgroundColor: Palette.primaryColor,
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: DrawerMenu(),
+
+
+      ),
       appBar: CustomAppBar(
         menu: () => _drawerKey.currentState.openDrawer(),
       ),
