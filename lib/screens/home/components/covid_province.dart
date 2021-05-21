@@ -61,14 +61,14 @@ class CovidProvince extends StatelessWidget {
                         children: [
                           Text(
                             'ສະສົມ: ${data[index].total} ຄົນ',
-                            style: TextStyle(fontSize: 14, color: Colors.red),
+                            style: TextStyle(fontSize: 14, color: Colors.orange),
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             'ເພີ່ມໃຫມ່: ${data[index].newCase} ຄົນ',
-                            style: TextStyle(fontSize: 13, color: Colors.blue),
+                            style: TextStyle(fontSize: 13, color: Colors.red),
                           ),
                         ],
                       ),

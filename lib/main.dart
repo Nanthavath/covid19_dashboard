@@ -1,7 +1,5 @@
 import 'package:covid19_dashboard/screens/home/home.dart';
 import 'package:flutter/material.dart';
-
-
 void main() {
   runApp(MyApp());
 }

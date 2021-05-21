@@ -2,15 +2,13 @@ import 'dart:convert';
 
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:covid19_dashboard/models/country.dart';
-import 'package:covid19_dashboard/models/province.dart';
 import 'package:covid19_dashboard/screens/home/components/custom_app_bar.dart';
-import 'package:covid19_dashboard/services/env.dart';
+
 import 'package:covid19_dashboard/services/service.dart';
 import 'package:covid19_dashboard/styles/palette.dart';
 import 'package:covid19_dashboard/styles/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:http/http.dart'as http;
 
 import 'components/covid_province.dart';
 import 'components/state_grid.dart';
@@ -25,81 +23,104 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   ServiceNetwork serviceNetwork = ServiceNetwork();
   Country country;
-
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    // return Container();
     return Scaffold(
+      key: _drawerKey,
       backgroundColor: Palette.primaryColor,
+      drawer: Drawer(),
       appBar: CustomAppBar(
-        menu: () {},
-        notify: () {},
+        menu: () => _drawerKey.currentState.openDrawer(),
       ),
-      body: country == null
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : CustomScrollView(
-              physics: ClampingScrollPhysics(),
-              slivers: [
-                _buildHeader(),
-                // _buildRegionTabBar(),
-                // _buildStatsTabBar(),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
+      body: FutureBuilder(
+        future: serviceNetwork.fetchAllData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 10,
                   ),
-                  sliver: SliverToBoxAdapter(
-                    child: StatsGrid(
-                      data: country,
+                  Text(
+                    'ກຳລັງໂຫຼດຂໍ້ມູນ...',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            );
+          }
+          if (!snapshot.hasData) {
+            return Text('No HasData');
+          }
+          if (snapshot.hasData) {
+            country = snapshot.data;
+            return SafeArea(
+                child: Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(),
+                    //Text("${country.element.updatedAt}"),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      child: StatsGrid(
+                        data: country,
+                      ),
                     ),
-                  ),
+                    _province(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: CovidProvince(
+                        data: country.element.provinces,
+                      ),
+                    )
+                  ],
                 ),
-                _province(),
-                SliverPadding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  sliver: SliverToBoxAdapter(
-                    child: CovidProvince(data: country.element.provinces,),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ));
+          }
+          if (snapshot.hasError) {
+            return Text('Error');
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
     );
   }
 
-  SliverPadding _buildHeader() {
-    return SliverPadding(
-      padding: const EdgeInsets.all(20),
-      sliver: SliverToBoxAdapter(
-        child: Text(
-          'Covid-19',
-          style: const TextStyle(
-            fontSize: 25,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+  _buildHeader() {
+    return Padding(
+      padding: EdgeInsets.only(left: 20, bottom: 10),
+      child: Text(
+        'Covid-19',
+        style: const TextStyle(
+          fontSize: 25,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
   }
 
-  SliverPadding _province() {
-    return SliverPadding(
-      padding: const EdgeInsets.only(left: 20, top: 10),
-      sliver: SliverToBoxAdapter(
-        child: Text(
-          'ຈຳນວນຜູ້ຕິດເຊື້ອໃນແຕ່ລະແຂວງ',
-          style: const TextStyle(
-            fontSize: 20,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+  _province() {
+    return Padding(
+      padding: EdgeInsets.only(left: 20, top: 10),
+      child: Text(
+        'ຈຳນວນຜູ້ຕິດເຊື້ອໃນແຕ່ລະແຂວງ',
+        style: const TextStyle(
+          fontSize: 20,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
@@ -157,15 +178,5 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-  }
-
-  void getData() async{
-
-    // serviceNetwork.fetchAllData();
-    serviceNetwork.fetchAllData().then((value) {
-      setState(() {
-        country = value;
-      });
-    });
   }
 }

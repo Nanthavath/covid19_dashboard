@@ -12,18 +12,11 @@ class ServiceNetwork {
         base_url,
         headers: {'Content-Type': 'application/json', 'Charset': 'utf-8'},
       );
+      var data = response.body;
+      final jsonString = json.decode(data);
 
-      if (response.statusCode == 200) {
-        var data = response.body;
-        final jsonString = json.decode(data);
-        Country value = Country.fromJson(jsonString);
-        print(value);
-        return value;
-      } else {
-        print("Connect failed");
-      }
-    } catch (e) {
-      print('Error=' + e.toString());
+      return Country.fromJson(jsonString);
+    } on HttpException catch (e) {
       return e;
     }
   }

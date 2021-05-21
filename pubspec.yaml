@@ -3,6 +3,8 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
+
+
 version: 1.0.0+1
 
 environment:
@@ -16,6 +18,7 @@ dependencies:
   intl: ^0.17.0
   bubble_tab_indicator: ^0.1.6
   http: ^0.13.3
+  flutter_svg: ^0.22.0
 
   
 
@@ -23,6 +26,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^1.1.8+4
 
 flutter:
 
@@ -34,7 +38,8 @@ flutter:
     - assets/fonts/NotoSansLao-Regular.ttf
     - assets/fonts/NotoSerifLao-Bold.ttf
     - assets/fonts/NotoSerifLao-Regular.ttf
-    - assets/images/logo.png
+    - assets/images/
+    - assets/icons/
   #   - images/a_dot_ham.jpeg
 
 
