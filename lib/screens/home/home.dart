@@ -33,8 +33,6 @@ class _HomeState extends State<Home> {
       backgroundColor: Palette.primaryColor,
       drawer: Drawer(
         child: DrawerMenu(),
-
-
       ),
       appBar: CustomAppBar(
         menu: () => _drawerKey.currentState.openDrawer(),
@@ -60,7 +58,9 @@ class _HomeState extends State<Home> {
             );
           }
           if (!snapshot.hasData) {
-            return Text('No HasData');
+            return Center(
+              child: Text('Error'),
+            );
           }
           if (snapshot.hasData) {
             country = snapshot.data;

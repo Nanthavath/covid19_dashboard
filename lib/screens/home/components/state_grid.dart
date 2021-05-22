@@ -16,19 +16,28 @@ class StatsGrid extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.28,
       child: Column(
         children: <Widget>[
-          Flexible(
+          Expanded(
             child: Row(
-              children: <Widget>[
-                _buildStatCard(title: 'ຍອດຜູ້ຕິເຊື້ອສະສົມ',count: data.element.total,
-                    color: Colors.orange, icon: 'assets/icons/account.svg',colors: Colors.white),
-                _buildStatCard(title: 'ຍອດຜູ້ເສຍຊີວິດ', count: data.element.dead, color: Colors.red,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildStatCard(
+                    title: 'ຍອດຜູ້ຕິເຊື້ອສະສົມ',
+                    count: data.element.total,
+                    color: Colors.orange,
+                    icon: 'assets/icons/account.svg',
+                    colors: Colors.white),
+                _buildStatCard(
+                    title: 'ຍອດຜູ້ເສຍຊີວິດ',
+                    count: data.element.dead,
+                    color: Colors.red,
                     icon: 'assets/icons/dead.svg'),
               ],
             ),
           ),
-          Flexible(
+          Expanded(
             child: Row(
-              children: <Widget>[
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 _buildStatCard(title:'ປິ່ນປົວຫາຍດີ', count:data.element.treaded,
                     color:  Colors.green,  icon:'assets/icons/happy.svg',colors: Colors.white),
                 _buildStatCard(title:'ກຳລັງຮັກສາ',count: data.element.decoveringCase,
@@ -43,24 +52,23 @@ class StatsGrid extends StatelessWidget {
     );
   }
 
-  Expanded _buildStatCard({
+  _buildStatCard({
     String title,
     int count,
     Color color,
     String icon,
     Color colors,
   }) {
-    return Expanded(
+    return Flexible(
       child: Container(
-        margin: const EdgeInsets.all(8.0),
-        padding: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+
           children: <Widget>[
             Text(
               title,
@@ -69,9 +77,6 @@ class StatsGrid extends StatelessWidget {
                 fontSize: 18.0,
                 fontWeight: FontWeight.w600,
               ),
-            ),
-            SizedBox(
-              height: 5,
             ),
             Row(
               children: [
