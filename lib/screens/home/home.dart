@@ -1,18 +1,23 @@
 import 'dart:convert';
 
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covid19_dashboard/models/country.dart';
 import 'package:covid19_dashboard/screens/home/components/custom_app_bar.dart';
 
 import 'package:covid19_dashboard/services/service.dart';
 import 'package:covid19_dashboard/styles/palette.dart';
 import 'package:covid19_dashboard/styles/styles.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/covid_province.dart';
 import 'components/drawer_menu.dart';
 import 'components/state_grid.dart';
+
+String DEVICE_ID = '';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -25,6 +30,43 @@ class _HomeState extends State<Home> {
   ServiceNetwork serviceNetwork = ServiceNetwork();
   Country country;
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
+  @override
+  void initState() {
+    getDeviceInfo();
+    super.initState();
+  }
+
+  void getDeviceInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    if (prefs.get(DEVICE_ID) == null) {
+      await prefs.setString(DEVICE_ID, androidInfo.androidId);
+      insertToFireStore(androidInfo);
+    } else {
+      print('Saved Successfully');
+    }
+  }
+
+  Future<void> insertToFireStore(AndroidDeviceInfo androidInfo) async {
+    CollectionReference devices =
+        FirebaseFirestore.instance.collection('devices');
+    devices.doc(androidInfo.androidId).set({
+      "device": androidInfo.device,
+      "brand": androidInfo.board,
+      "android version": androidInfo.version.release,
+      "board": androidInfo.board,
+      "display": androidInfo.display,
+      "model": androidInfo.model,
+      "id": androidInfo.id,
+      "product": androidInfo.product
+    }).then((value) {
+      print('Added ${androidInfo.androidId}');
+    }).catchError((err) {
+      print(err.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "181956226213",
+    "firebase_url": "https://covid-19-dashboard-6caed-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "covid-19-dashboard-6caed",
+    "storage_bucket": "covid-19-dashboard-6caed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181956226213:android:46cb43df536fb3c856314c",
+        "android_client_info": {
+          "package_name": "me.wmps.covid19_dashboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "181956226213-jjnte433tusblnoabakndnjiul6a1klt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfTxbXhR_YBxl2tVkliPyl4vFIUfaLQ-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "181956226213-jjnte433tusblnoabakndnjiul6a1klt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
